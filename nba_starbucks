@@ -1,0 +1,126 @@
+library(readxl)
+library(xlsx)
+install.packages("ggplot2")
+library(ggplot2)
+NBA <- read_excel("NBA .xlsx")
+View(NBA)
+
+nba = NBA[, c(2:5)]
+
+cor(nba)
+
+#multi linear regression
+
+fit = lm(nba$Wins~nba$`Field Goal % Difference` + nba$`Field Goal % Allowed`)
+res = residuals(fit)
+
+summary(fit)
+
+ggplot(nba, aes(x = nba$`Field Goal%`, y = nba$Wins)) + geom_point() + geom_smooth(method = 'lm')
+
+#results
+# Call:
+#   lm(formula = nba)
+# 
+# Residuals:
+#   Min       1Q   Median       3Q      Max 
+# -10.7846  -4.7495  -0.7546   3.8863  16.3393 
+# 
+# Coefficients: (1 not defined because of singularities)
+# Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)                41.6448    74.2479   0.561    0.579    
+# `Field Goal%`               4.8408     1.0178   4.756 5.87e-05 ***
+#   `Field Goal % Allowed`     -4.8577     0.9547  -5.088 2.40e-05 ***
+#   `Field Goal % Difference`       NA         NA      NA       NA    
+# ---
+#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 7.054 on 27 degrees of freedom
+# Multiple R-squared:  0.7331,	Adjusted R-squared:  0.7134 
+# F-statistic: 37.09 on 2 and 27 DF,  p-value: 1.799e-08
+
+#wins = 41.64 + 4.84 (45) - 4.86 (44)
+#wins = 45.6
+       
+     
+library(readxl)
+library(xlsx)
+Starbucks <- read_excel("Starbucks.xlsx")
+View(Starbucks)
+
+# Perform cor
+
+cor(Starbucks)
+
+#result
+# Amount        Age       Days      Cups    Income
+# Amount 1.0000000 0.21514123 0.40686371 0.2862270 0.8500323
+# Age    0.2151412 1.00000000 0.03745681 0.2682888 0.1778494
+# Days   0.4068637 0.03745681 1.00000000 0.5876009 0.3054375
+# Cups   0.2862270 0.26828876 0.58760095 1.0000000 0.1594511
+# Income 0.8500323 0.17784941 0.30543755 0.1594511 1.0000000
+
+ggplot(Starbucks, aes(x=Income, y = Amount)) + geom_point() + geom_smooth(method = 'lm')
+
+#linear regression
+
+#if error overrides previous value - rerun 
+
+fit2 = lm(Starbucks$Amount ~ Starbucks$Income)
+res = residuals(fit2)
+
+summary(fit2)
+#result
+
+# Call:
+#   lm(formula = Starbucks$Amount ~ Starbucks$Income)
+# 
+# Residuals:
+#   Min      1Q  Median      3Q     Max 
+# -41.432  -9.063   0.937   3.832  56.989 
+# 
+# Coefficients:
+#   Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)      -63.3057    13.0255  -4.860 6.60e-05 ***
+#   Starbucks$Income   2.5790     0.3332   7.739 7.53e-08 ***
+#   ---
+#   Signif. codes:  
+#   0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 21.96 on 23 degrees of freedom
+# Multiple R-squared:  0.7226,	Adjusted R-squared:  0.7105 
+# F-statistic:  59.9 on 1 and 23 DF,  p-value: 7.534e-08
+
+
+#multi linear regression
+
+fit = lm(Starbucks)
+res = residuals(fit)
+
+summary(fit)
+
+#result
+
+# Call:
+#   lm(formula = Starbucks)
+# 
+# Residuals:
+#   Min      1Q  Median      3Q     Max 
+# -37.874  -9.947  -2.351   7.332  56.872 
+# 
+# Coefficients:
+#   Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) -83.8257    22.4944  -3.727  0.00133 ** 
+#   Age           0.2369     0.5759   0.411  0.68515    
+# Days          1.1897     1.4739   0.807  0.42909    
+# Cups          1.4216     2.6310   0.540  0.59494    
+# Income        2.4065     0.3597   6.690 1.64e-06 ***
+#   ---
+#   Signif. codes:  
+#   0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 22.15 on 20 degrees of freedom
+# Multiple R-squared:  0.7546,	Adjusted R-squared:  0.7056 
+# F-statistic: 15.38 on 4 and 20 DF,  p-value: 6.758e-06
+
+
